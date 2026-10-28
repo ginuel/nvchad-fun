@@ -20,10 +20,10 @@ To make clipboard sharing and system tools work properly, install both **Termux*
 
 ## ⚡ Step 2: One-Line Automatic Setup
 
-Open **Termux**, paste this command, and press **Enter**:
+Open **Termux**, paste this command to update your system packages and run the setup, then press **Enter**:
 
 ```bash
-pkg install -y git && git clone https://github.com/diamond2sword/nvchad-fun ~/.config/nvim && source ~/.config/nvim/install.sh
+pkg update && pkg upgrade -y && pkg install -y git && git clone https://github.com/diamond2sword/nvchad-fun ~/.config/nvim && source ~/.config/nvim/install.sh
 ```
 
 Wait a few minutes while it installs and configures all your tools. Termux will automatically restart when complete!
@@ -69,26 +69,122 @@ Neovim is your text editor. Open a file by typing `vi filename.txt` or `nvim fil
 
 ---
 
+## 📋 Copying & Pasting in Termux and Neovim
+
+Your setup includes helper functions and extra touch keys to easily copy and paste text.
+
+### 1. Copying & Pasting in Termux (Outside Neovim)
+* **To Copy text from Termux to your phone clipboard**: 
+  1. Long-press anywhere on the screen in Termux to select text.
+  2. Tap **Copy** from the popup menu.
+  * *(Alternative)*: You can also use commands directly in your terminal:
+    * `termux-clipboard-set "Hello from Termux"` (copies text to phone clipboard).
+    * `termux-clipboard-get` (prints out what's currently in your phone clipboard).
+* **To Paste text from your phone clipboard into Termux**: 
+  1. Long-press anywhere on the command line.
+  2. Tap **Paste**. *(Alternatively, use your extra-keys toolbar and tap **`CTRL`** + **`V`** or **`SHIFT`** + **`INSERT`**)*.
+
+### 2. Copying & Pasting Inside Neovim
+If you want to copy code blocks or lines inside Neovim:
+1. Press `v` to enter visual mode, highlight your text, and press **`CTRL`** + **`C`** to copy the selection directly to your Android system clipboard.
+2. To paste system clipboard text into Neovim, press **`CTRL`** + **`V`** while in insert mode (`i`).
+
+---
+
+## 📑 Managing Termux Tabs (Sessions)
+
+When coding, you will want one tab to edit your code and another tab to run your live website server. 
+
+1. **Open the Session Drawer**: Swipe your finger **from the left edge of your phone screen toward the right**. A menu panel will slide out.
+2. **Create a New Tab**: Tap the **`NEW SESSION`** button at the top of the menu.
+3. **Switch Between Tabs**: Swipe from the left edge again and select whichever session you want to view (e.g., Session 1 for editing, Session 2 for running your server).
+
+---
+
+## 🌐 Running Your Website Locally & Viewing It
+
+Thanks to your setup, you can easily host and view your websites directly on your phone using your mobile web browser (like Chrome or Firefox).
+
+### 1. Vanilla HTML / JavaScript Websites
+If your project is a standard static website (containing `index.html`):
+
+1. Open a Termux tab and go to your project folder:
+   ```bash
+   cd ~/my-project
+   ```
+2. Start a simple Python web server on port `8000`:
+   ```bash
+   python3 -m http.server 8000
+   ```
+3. Open your mobile browser and go to:
+   **`http://localhost:8000`**
+
+### 2. PHP Websites
+If your website uses PHP files (e.g., `index.php`), PHP is already pre-installed via your setup script:
+
+1. Open a Termux tab and go to your project folder:
+   ```bash
+   cd ~/my-project
+   ```
+2. Start the built-in PHP server on port `8080`:
+   ```bash
+   php -S localhost:8080
+   ```
+3. Open your mobile browser and go to:
+   **`http://localhost:8080`**
+
+> 💡 **Tip**: Leave that tab running in the background! Use your **second Termux tab** to continue editing files in Neovim (`nvim index.html`), and refresh your browser page to see your live updates instantly.
+
+---
+
 ## 🐙 Registering & Connecting Your GitHub Account
 
-### Step 1: Configure Your Git Credentials
-Set your global name and email (use the email attached to your GitHub account):
+### Step 1: Configure Your Local Git Credentials
+Set your global username and email address (use the email linked to your GitHub account):
 
 ```bash
 git config --global user.name "Your Real Name or Handle"
 git config --global user.email "your.email@example.com"
 ```
 
-### Step 2: Log in with GitHub CLI (`gh`)
-Log in interactively using the official GitHub tool:
+### Step 2: Interactive Browser Login using GitHub CLI (`gh`)
+Run the following command to begin authentication:
 
 ```bash
 gh auth login
 ```
-1. Select **GitHub.com**.
-2. Select **HTTPS** as the preferred protocol.
-3. Choose **Y** to authenticate Git credentials.
-4. Select **Login with a web browser**, copy the displayed 8-character code, press Enter, and authorize it in your mobile browser.
+
+Follow each terminal prompt step-by-step:
+
+1. **What account do you want to log into?**  
+   Select **`GitHub.com`** and press **Enter**.
+2. **What is your preferred protocol for Git operations?**  
+   Select **`HTTPS`** and press **Enter**.
+3. **Authenticate Git with your GitHub credentials?**  
+   Select **`Y`** (Yes) and press **Enter**.
+4. **How would you like to authenticate GitHub CLI?**  
+   Select **`Login with a web browser`** and press **Enter**.
+
+#### Completing Browser & Code Authorization:
+1. Terminal will show a message similar to:  
+   `! First copy your one-time code: XXXX-XXXX`
+2. **Copy the 8-character code** shown on your screen (e.g., `A1B2-C3D4`).
+3. Press **Enter** to launch your mobile browser, or manually open [github.com/login/device](https://github.com/login/device).
+4. Paste the **8-character code** into the browser box and tap **Continue**.
+5. Tap **Authorize github** to give Termux access to your repositories.
+6. Return to Termux. You will see:  
+   `✓ Authentication complete.`
+
+---
+
+## 🔄 Switching GitHub Accounts
+
+If you ever need to change your GitHub accounts or re-authenticate, go to your config directory and run `./git.bash login`:
+
+```bash
+cd ~/.config/nvim
+./git.bash login
+```
 
 ---
 
